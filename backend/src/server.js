@@ -157,25 +157,26 @@ let httpServer;
 async function start() {
   try {
     await startSMTP();
-
-    httpServer = app.listen(PORT, '0.0.0.0', () => {
-      const bar = '═'.repeat(44);
-      console.log(`\n╔${bar}╗`);
-      console.log(`║   KurumiMail v2.1 — ${NODE_ENV.toUpperCase().padEnd(22)}║`);
-      console.log(`╠${bar}╣`);
-      console.log(`║  HTTP API  → http://0.0.0.0:${PORT}${' '.repeat(14)}║`);
-      console.log(`║  SMTP      → port ${process.env.SMTP_PORT || 2525}${' '.repeat(25)}║`);
-      if (IS_PROD) {
-      console.log(`║  Frontend  → served from dist/        ║`);
-      }
-      console.log(`║  Health    → /api/health              ║`);
-      console.log(`╚${bar}╝\n`);
-    });
   } catch (err) {
-    console.error('[Server] Failed to start:', err.message);
-    process.exit(1);
+    console.warn('[Server] SMTP failed to start (non-fatal):', err.message);
+    console.warn('[Server] Running in HTTP-only mode (no inbound email delivery).');
   }
+
+  httpServer = app.listen(PORT, '0.0.0.0', () => {
+    const bar = '═'.repeat(44);
+    console.log(`\n╔${bar}╗`);
+    console.log(`║   KurumiMail v2.1 — ${NODE_ENV.toUpperCase().padEnd(22)}║`);
+    console.log(`╠${bar}╣`);
+    console.log(`║  HTTP API  → http://0.0.0.0:${PORT}${' '.repeat(14)}║`);
+    console.log(`║  SMTP      → port ${process.env.SMTP_PORT || 2525}${' '.repeat(25)}║`);
+    if (IS_PROD) {
+    console.log(`║  Frontend  → served from dist/        ║`);
+    }
+    console.log(`║  Health    → /api/health              ║`);
+    console.log(`╚${bar}╝\n`);
+  });
 }
+
 
 // ─── Graceful Shutdown ────────────────────────────────────────────────────────
 function shutdown(signal) {
