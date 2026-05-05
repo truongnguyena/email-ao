@@ -9,7 +9,7 @@
   "scripts": {
     "dev":          "node --watch src/server.js",
     "start":        "node src/server.js",
-    "build:fe":     "cd ../frontend && npm run build",
+    "build:fe":     "cd ../frontend && npm install && npm run build",
     "start:prod":   "npm run build:fe && NODE_ENV=production node src/server.js",
     "start:server": "NODE_ENV=production node src/server.js"
   },

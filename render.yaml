@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: kurumi-mail-v2
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install && npm run build:fe
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MAIL_DOMAINS
+        value: kurumi.vn,hopthu.vn
+      - key: EMAIL_TTL_MINUTES
+        value: 30
+      - key: API_RATE_LIMIT
+        value: 300
+    # Cấu hình để Render biết website chính nằm ở đâu sau khi build
+    staticPublishNum: 0 
